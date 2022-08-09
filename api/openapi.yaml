@@ -1,0 +1,151 @@
+openapi: 3.0.1
+info:
+  title: Lyrical API
+  description: A basic API for storing lyric ideas
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /lyrics:
+    summary: get all of the lyrics data
+    description: This path is used to retrieve all of the stored lyrics
+    get:
+      tags:
+      - lyrics
+      summary: This operation retrieves all of the stored lyrics
+      description: This operation retrieves all of the stored lyrics
+      operationId: get_lyrics
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            application/json:
+              examples:
+                lyrics:
+                  value: |-
+                    {
+                     "lyrics":
+                    [{"lyric":"A sunny day it was", "id": "001"},
+                    {"lyric":"I was sitting by the coffee shop", "id":"002"},
+                    {"lyric":"There was not a moment to spare", "id":"003"}
+                    ]
+                    }
+      x-swagger-router-controller: Lyrics
+  /newlyric:
+    summary: Post a new lyric to the database
+    description: This path is used to create a new lyric and store it in the database
+    post:
+      tags:
+      - lyrics
+      summary: create new lyric
+      description: This operation creates a new lyric and adds it to the database
+      operationId: create_lyric
+      requestBody:
+        description: A new order object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            text/plain; charset=utf-8:
+              examples:
+                new_lyric:
+                  value: "Lyric has been posted with id: 005"
+      x-swagger-router-controller: Lyrics
+  /lyrics/{id}:
+    summary: Get a specific lyric by id
+    description: This path is used to retrieve a specific lyric by id
+    get:
+      tags:
+      - lyrics
+      summary: get lyric by id
+      description: This operation retrieves a specific lyric by id
+      operationId: get_lyric_id
+      parameters:
+      - name: id
+        in: path
+        description: The id of the order.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            application/json:
+              examples:
+                lyric_id:
+                  value: "{\"lyric\":\"A sunny day it was\", \"id\": \"001\"}"
+      x-swagger-router-controller: Lyrics
+  /updatelyric/{id}:
+    summary: PUT update a lyric by id
+    description: This path is used to update a lyric by its id
+    put:
+      tags:
+      - lyrics
+      summary: update lyric
+      description: This operation updates a specific lyric by id
+      operationId: update_lyric
+      parameters:
+      - name: id
+        in: path
+        description: The id of the order.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            text/plain; charset=utf-8:
+              examples:
+                update_lyric:
+                  value: "Lyric with id: 005 has been updated"
+      x-swagger-router-controller: Lyrics
+  /deletelyric/{id}:
+    summary: Delete a lyric by id
+    description: This path is used to delete a lyric by its id
+    delete:
+      tags:
+      - lyrics
+      summary: delete lyric by id
+      description: This operation deletes a specific lyric by id
+      operationId: delete_lyric
+      parameters:
+      - name: id
+        in: path
+        description: The id of the order.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            text/plain; charset=utf-8:
+              examples:
+                delete_lyric:
+                  value: "Lyric with id: 005 has been deleted."
+      x-swagger-router-controller: Lyrics
+components:
+  schemas:
+    Order:
+      type: object
+      properties:
+        name:
+          type: string
+        id:
+          type: string
+        state:
+          type: string
+      xml:
+        name: Order
